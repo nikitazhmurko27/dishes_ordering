@@ -1,0 +1,16 @@
+{% extends "dish/base.html" %}
+{% block content %}
+<div>
+    <h1>{{dish.name}}</h1>
+    <p>{{dish.created_at}}</p>
+    <p>Ingredients:
+        <ul>
+        {% for ingredient in dish.dish_ingredients.select_related %}
+            <li>{{ingredient.ingredient.name}} - {{ingredient.amount}}</li>
+        {% endfor %}
+        </ul>
+    </p>
+    <a href="/dishes/create-order/{{dish.id}}">Create Order</a>
+</div>
+<hr>
+{% endblock %}
