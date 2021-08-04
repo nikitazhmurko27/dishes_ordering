@@ -1,10 +1,44 @@
-from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Dish, Order, Ingredient, OrderIngredients, DishIngredients
-from django.forms import modelformset_factory, ModelForm
+from django.views.generic import ListView, DetailView
+from .models import Dish, Order, OrderIngredients
+from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from .forms import OrderForm, DishFilterForm
+from django.views import View
+
+
+class DishListView (View):
+    def get(self, request, *args, **kwargs):
+        dishes = Dish.objects.all()
+
+        filter_form = DishFilterForm(request.GET)
+        if filter_form.is_valid():
+            search_str = filter_form.cleaned_data.get("search_str")
+            date_from = filter_form.cleaned_data.get("date_from")
+            date_to = filter_form.cleaned_data.get("date_to")
+            order_by = filter_form.cleaned_data.get("order_by")
+
+            if search_str:
+                dishes = dishes.filter(name__icontains=f'{search_str}')
+            if date_from:
+                dishes = dishes.filter(created_at__gte=f'{date_from}')
+            if date_to:
+                dishes = dishes.filter(created_at__lte=f'{date_to}')
+            if order_by == 'ASC':
+                dishes = dishes.order_by('created_at')
+
+        context = {
+            'dishes': dishes,
+            'filter': filter_form,
+        }
+
+        return render(
+            request,
+            'dish/index.html',
+            context
+        )
 
 
 class DishesListView(ListView):
@@ -24,19 +58,6 @@ class DishSingleView(DetailView):
     model = Dish
     template_name = 'dish/single-dish.html'
     context_object_name = 'dish'
-
-
-class OrderForm(ModelForm):
-    class Meta:
-        model = OrderIngredients
-        fields = ('ingredient', 'amount')
-
-    def clean_amount(self):
-        amount = self.cleaned_data['amount']
-        min_amount = 1
-        if amount < min_amount:
-            raise ValidationError(f'The amount should not be less than {min_amount}')
-        return amount
 
 
 def create_order(request, dish_id):

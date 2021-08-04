@@ -3,7 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Dishes Ordering</title>
+    <style>
+        .disabled-select{
+            background: #eee;
+            pointer-events: none;
+            touch-action: none;
+        }
+    </style>
 </head>
+<div>
+    <nav>
+        <a class="p-2 link-secondary" href="/dishes">Dishes</a>
+        <a class="p-2 link-secondary" href="/orders">Orders</a>
+    </nav>
+</div>
 <body>
       {% block content %}
       {% endblock %}
