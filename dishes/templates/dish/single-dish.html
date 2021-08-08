@@ -1,16 +1,31 @@
-{% extends "dish/base.html" %}
+{% extends "base.html" %}
 {% block content %}
+<div class="navigation_menu">
+    <div class="navigation_menu_left">
+        <a href="/dishes-ordering/dishes" class="active">dishes</a>
+    </div>
+    <div class="navigation_menu_right">
+        <span id="user_name">Admin</span>
+        <a href="#">Logout</a>
+    </div>
+</div>
 <div>
     <h1>{{dish.name}}</h1>
     <p>{{dish.created_at}}</p>
-    <p>Ingredients:
-        <ul>
+    <h3>Ingredients list:</h3>
+    <table id="ingredients_table">
+        <tr class="table_header">
+            <th>Title</th>
+            <th>Amount</th>
+        </tr>
         {% for ingredient in dish.dish_ingredients.select_related %}
-            <li>{{ingredient.ingredient.name}} - {{ingredient.amount}}</li>
+            <tr class="table_ingredient">
+                <td>{{ingredient.ingredient.name}}</td>
+                <td>{{ingredient.amount}}</td>
+            </tr>
         {% endfor %}
-        </ul>
-    </p>
-    <a href="/dishes/create-order/{{dish.id}}">Create Order</a>
+    </table>
+    <a id="create_order_btn" href="/dishes-ordering/create-order/{{dish.id}}">Create Order</a>
 </div>
 <hr>
 {% endblock %}

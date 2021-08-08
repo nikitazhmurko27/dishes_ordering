@@ -1,10 +1,27 @@
-{% extends "dish/base.html" %}
+{% extends "base.html" %}
 {% block content %}
-<form method="POST" action="">
+<div class="navigation_menu">
+    <div class="navigation_menu_left">
+        <a href="/dishes-ordering/dishes">dishes</a>
+    </div>
+    <div class="navigation_menu_right">
+        <span id="user_name">Admin</span>
+        <a href="#">Logout</a>
+    </div>
+</div>
+<h2 style="text-align:center;">Create Order for {{ dish_name }}</h2>
+<form class="create_order_form" method="post">
     {% csrf_token %}
-    {{form.as_p}}
-    {{form.non_field.errors}}
-    <p><input type="submit"></p>
+    {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+    {% endfor %}
+    {{ form.management_form }}
+    {% for field in form %}
+       <div class="create_order_field_wrapper">
+         {{field.label}}
+         {{field}}
+       </div>
+    {% endfor %}
+    <input type="submit" />
 </form>
-<hr>
 {% endblock %}

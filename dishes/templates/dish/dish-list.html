@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="navigation_menu">
+    <div class="navigation_menu_left">
+        <a href="/dishes-ordering/">home</a>
+<!--        <a href="/dishes-ordering/dishes" class="active">dishes</a>-->
+<!--        <a href="/dishes-ordering/orders"> my orders</a>-->
+    </div>
+    <div class="navigation_menu_center">
+        <span id="filter_btn">Show Filter</span>
+    </div>
+    <div class="navigation_menu_right">
+        <span id="user_name">Admin</span>
+        <a href="#">Logout</a>
+    </div>
+</div>
+<div class="filter_container">
+    <form action="" method="get">
+        {{ filter }}
+        {{ filter.non_field.errors }}
+        <input type="submit" value="Search" id="filter_search">
+    </form>
+</div>
+<div class="dishes">
+    {% for dish in dishes %}
+    <div class="dish">
+        <div class="dish_info">
+            <h1><a href="/dishes-ordering/dish/{{dish.id}}">{{dish.name}}</a></h1>
+            <p>{{dish.created_at}}</p>
+        </div>
+    </div>
+<hr>
+{% empty %}
+    <h2>Sorry, no dishes were found. Please add the dish in the admin panel.</h2>
+{% endfor %}
+</div>
+{% endblock %}

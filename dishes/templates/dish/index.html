@@ -1,17 +1,15 @@
-{% extends "dish/base.html" %}
+{% extends "base.html" %}
 {% block content %}
-<div>
-    <form action="" method="get">
-        {{ filter }}
-        {{ filter.non_field.errors }}
-        <p><input type="submit" value="Search"></p>
-    </form>
+{% load static %}
+<h2 class="homepage_title">Welcome to the Dish Ordering! </h2>
+<div class="homepage_navigation">
+    <a href="dishes">
+        <img src="{% static 'images/dishes.jpeg'%}" alt="">
+        <p>dishes</p>
+    </a>
+    <a href="orders">
+        <img src="{% static 'images/order.jpeg'%}" alt="">
+        <p>orders</p>
+    </a>
 </div>
-{% for dish in dishes %}
-<div>
-    <a href="/dishes/{{dish.id}}">{{dish.name}}</a>
-    <p>{{dish.created_at}}</p>
-</div>
-<hr>
-{% endfor %}
 {% endblock %}

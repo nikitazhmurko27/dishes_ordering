@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="navigation_menu">
+    <div class="navigation_menu_left">
+        <a href="/dishes-ordering/">home</a>
+<!--        <a href="/dishes-ordering/dishes" class="active">dishes</a>-->
+<!--        <a href="/dishes-ordering/orders"> my orders</a>-->
+    </div>
+<!--    <div class="navigation_menu_right">-->
+<!--        <span id="user_name">Admin</span>-->
+<!--        <a href="#">Logout</a>-->
+<!--    </div>-->
+</div>
+
+{% for order in orders %}
+<div>
+    <h2>Order #{{order.order_id}}</h2>
+    <p>{{order.created_at}}</p>
+    <h3>Ingredients list:</h3>
+    <table id="ingredients_table">
+        <tr class="table_header">
+            <th>Title</th>
+            <th>Amount</th>
+        </tr>
+        {% for order_ingredient in order.order_ingredients.all %}
+            <tr class="table_ingredient">
+                <td>{{order_ingredient.ingredient.name}}</td>
+                <td>{{order_ingredient.amount}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+<hr>
+{% empty %}
+    <h2>Sorry, no orders were found.</h2>
+{% endfor %}
+{% endblock %}

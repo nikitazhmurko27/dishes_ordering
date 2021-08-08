@@ -1,5 +1,4 @@
-from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import Dish, Order, OrderIngredients
 from django.forms import modelformset_factory
@@ -7,6 +6,14 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import OrderForm, DishFilterForm
 from django.views import View
+
+
+class HomepageView(View):
+    def get(self, request, *args, **kwargs):
+        return render(
+            request,
+            'dish/index.html',
+        )
 
 
 class DishListView (View):
@@ -36,22 +43,9 @@ class DishListView (View):
 
         return render(
             request,
-            'dish/index.html',
+            'dish/dish-list.html',
             context
         )
-
-
-class DishesListView(ListView):
-    model = Dish
-    template_name = 'dish/index.html'
-    context_object_name = 'dishes'
-
-    def get_queryset(self):
-        return Dish.objects.all()
-        # return Dish.objects.prefetch_related(
-        #     'dish_ingredients',
-        #     'dish_ingredients__ingredient'
-        # )
 
 
 class DishSingleView(DetailView):
@@ -60,18 +54,41 @@ class DishSingleView(DetailView):
     context_object_name = 'dish'
 
 
-def create_order(request, dish_id):
-    try:
-        dish = Dish.objects.get(id=dish_id)
-    except ObjectDoesNotExist:
-        return HttpResponseRedirect(reverse('dishes:not_found'))
-    initial_values = dish.get_ingredients_list()
-    OrderFormSet = modelformset_factory(OrderIngredients, form=OrderForm, can_delete=False, extra=len(initial_values))
-    formset = OrderFormSet(initial=initial_values, queryset=OrderIngredients.objects.none().select_related())
-    if request.method == 'GET':
-        context = {'form': formset}
+class OrderListView(ListView):
+    model = Order
+    template_name = 'order/orders-list.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        return Order.objects.prefetch_related(
+            'order_ingredients',
+            'order_ingredients__ingredient'
+        )
+
+
+class CreateOrderView(View):
+    def get(self, request, dish_id):
+        dish = get_object_or_404(Dish, id=dish_id)
+        initial_values = dish.get_ingredients_list()
+        OrderFormSet = modelformset_factory(OrderIngredients,
+                                            form=OrderForm,
+                                            can_delete=False,
+                                            extra=len(initial_values)
+                                            )
+        formset = OrderFormSet(initial=initial_values,
+                               queryset=OrderIngredients.objects.none().select_related()
+                               )
+        context = {'form': formset, 'dish_name': dish.name}
         return render(request, 'order/create-order.html', context)
-    if request.method == 'POST':
+
+    def post(self, request, dish_id):
+        dish = get_object_or_404(Dish, id=dish_id)
+        initial_values = dish.get_ingredients_list()
+        OrderFormSet = modelformset_factory(OrderIngredients,
+                                            form=OrderForm,
+                                            can_delete=False,
+                                            extra=len(initial_values)
+                                            )
         formset = OrderFormSet(request.POST)
         if not formset.is_valid():
             context = {'form': formset}
@@ -83,8 +100,4 @@ def create_order(request, dish_id):
             instance.order = order
             instance.save()
         formset.save_m2m()
-        return HttpResponseRedirect(reverse('dishes:index'))
-
-
-def not_found(request):
-    return render(request, 'dish/404.html')
+        return HttpResponseRedirect(reverse('dishes:orders_list'))

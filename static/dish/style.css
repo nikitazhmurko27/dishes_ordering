@@ -1,0 +1,191 @@
+body{
+   font-family: Candara, Calibri, Segoe, Segoe UI, Optima;
+   color: #322929;
+}
+
+body a{
+   color: #322929;
+   text-decoration: none;
+}
+
+.disabled-select{
+    background: #eee;
+    pointer-events: none;
+    touch-action: none;
+}
+
+.homepage_title{
+    text-align: center;
+    padding: 35px;
+}
+
+.homepage_navigation{
+    display: flex;
+    width: 500px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.homepage_navigation a {
+    text-decoration: none;
+    color: #322929;
+    width: 220px;
+    border-radius: 50px;
+    border: 1px solid rgba(34, 60, 80, 0.2);
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(34, 60, 80, 0.2) inset;
+    -moz-box-shadow: 0px 1px 10px 2px rgba(34, 60, 80, 0.2) inset;
+    box-shadow: 0px 1px 10px 2px rgba(34, 60, 80, 0.2) inset;
+    opacity:0.8;
+    -moz-opacity:0.8;
+    filter: alpha(opacity=80) black;
+    -khtml-opacity: 0.5;
+    background-color:#e7e4e4;
+}
+
+.homepage_navigation a:hover{
+    opacity:1;
+    background-color: #a4ef8b;
+}
+
+.homepage_navigation a img{
+    width: 220px;
+    height: 350px;
+    border-radius: 50px;
+}
+
+.homepage_navigation a p{
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.navigation_menu{
+    display: flex;
+    justify-content: space-between;
+    font-size: 22px;
+    padding: 20px 0;
+    background-color: #575a72;
+    color: #ffffff;
+}
+.navigation_menu_left{
+    text-transform: uppercase;
+}
+
+.navigation_menu a{
+    padding: 0 10px;
+    color: #ffffff;
+}
+
+.navigation_menu a:hover{
+    color: #a4ef8b;
+}
+
+.active{
+    display: block !important;
+}
+
+.filter_container{
+    padding: 20px 0;
+    border: 1px solid #575a72;
+    border-radius: 0 0 20px 20px;
+}
+
+.filter_container form{
+    display: flex;
+    justify-content: space-evenly;
+    height: 20px;
+}
+
+.dishes{
+   margin: 20px 0;
+}
+
+.dish img{
+    width: 100px;
+    height 100px;
+}
+
+#filter_btn{
+    cursor: pointer;
+}
+
+#filter_btn:hover{
+    color: #a4ef8b;
+}
+
+#filter_search{
+    padding: 0 10px;
+    border-radius: 10px;
+    width: 100px;
+    background-color: #575a72;
+    color: #ffffff;
+}
+
+.dish_info h1 a:hover{
+    color: #a4ef8b;
+}
+
+.table_header{
+    text-align: center;
+}
+
+.table_ingredient td{
+    text-align: center;
+}
+
+#ingredients_table td, #ingredients_table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#ingredients_table tr:nth-child(even){background-color: #f2f2f2;}
+
+#ingredients_table tr:hover {background-color: #ddd;}
+
+#ingredients_table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #575a72;
+  color: white;
+}
+
+#create_order_btn{
+  margin: 20px 0;
+  background-color: #575a72;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.create_order_form{
+    width: 750px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.create_order_form input[type=submit] {
+  width: 100px;
+  background-color: #7e829d;
+  color: white;
+  padding: 10px 20px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create_order_form input[type=submit]:hover {
+  background-color: #575a72;
+}
+
+.create_order_field_wrapper{
+    padding: 15px;
+}
