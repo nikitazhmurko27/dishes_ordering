@@ -95,6 +95,7 @@ class CreateOrderView(View):
                                             extra=len(initial_values)
                                             )
         formset = OrderFormSet(request.POST)
+        logger.debug(request.POST)
         if not formset.is_valid():
             logger.error('order form is invalid')
             context = {'form': formset}
