@@ -6,6 +6,10 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import OrderForm, DishFilterForm
 from django.views import View
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class HomepageView(View):
@@ -82,6 +86,7 @@ class CreateOrderView(View):
         return render(request, 'order/create-order.html', context)
 
     def post(self, request, dish_id):
+        logger.info('creating order start')
         dish = get_object_or_404(Dish, id=dish_id)
         initial_values = dish.get_ingredients_list()
         OrderFormSet = modelformset_factory(OrderIngredients,
@@ -91,6 +96,7 @@ class CreateOrderView(View):
                                             )
         formset = OrderFormSet(request.POST)
         if not formset.is_valid():
+            logger.error('order form is invalid')
             context = {'form': formset}
             return render(request, 'order/create-order.html', context)
         order = Order()
@@ -100,4 +106,5 @@ class CreateOrderView(View):
             instance.order = order
             instance.save()
         formset.save_m2m()
+        logger.info('order added successfully')
         return HttpResponseRedirect(reverse('dishes:orders_list'))
