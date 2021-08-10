@@ -133,6 +133,44 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '%(name)-12s %(levelname)-8s %(message)s'
+        },
+        'file': {
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'formatter': 'file',
+            'filename': BASE_DIR / 'logs.log',
+            'when': 'D',
+            'interval': 1,
+            'backupCount': 10,
+        }
+    },
+    'loggers': {
+        '': {
+            'level': 'DEBUG',
+            'handlers': ['console', 'file']
+        },
+        'django.request': {
+            'level': 'DEBUG',
+            'handlers': ['console', 'file']
+        }
+    }
+}
+
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
