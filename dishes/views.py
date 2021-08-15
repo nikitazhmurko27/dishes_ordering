@@ -7,6 +7,7 @@ from django.urls import reverse
 from .forms import OrderForm, DishFilterForm
 from django.views import View
 import logging
+from datetime import datetime, date
 
 
 logger = logging.getLogger(__name__)
@@ -70,6 +71,53 @@ class OrderListView(ListView):
         )
 
 
+def get_ingredient_diff(dish_ingredients, order_ingredients):
+    """
+    Get the difference ingredients between dish and order
+    :param dish_ingredients:
+    :param order_ingredients:
+    :return: list
+    """
+    pairs = zip(dish_ingredients, order_ingredients)
+    diffs = []
+    for x, y in pairs:
+        if x == y:
+            continue
+        for k in x:
+            if x[k] == y[k]:
+                continue
+            diffs.append({
+                'name': x['ingredient'].name,
+                'current': y[k],
+            })
+    return diffs
+
+
+def get_daily_orders():
+    """
+    Collect data orders from last day
+    :return:
+    """
+    today = date.today()
+    midnight = datetime.combine(today, datetime.min.time())
+    orders = Order.objects.filter(created_at__gte=midnight)
+
+    data = []
+    for order in orders:
+        dish_ingredients = order.dish.get_ingredients_list()
+        order_ingredients = order.get_ingredients_list()
+        diffs = get_ingredient_diff(dish_ingredients, order_ingredients)
+        diffs_str = ""
+        for ingredient_diff in diffs:
+            diff_str = f"{ingredient_diff['name']} - {ingredient_diff['current']};"
+            diffs_str += diff_str
+        is_change = True
+        if len(diffs) == 0:
+            is_change = False
+        data.append([order.dish.name, is_change, diffs_str])
+    return data
+
+
 class CreateOrderView(View):
     def get(self, request, dish_id):
         dish = get_object_or_404(Dish, id=dish_id)
@@ -100,7 +148,7 @@ class CreateOrderView(View):
             logger.error('order form is invalid')
             context = {'form': formset}
             return render(request, 'order/create-order.html', context)
-        order = Order()
+        order = Order(dish=dish)
         order.save()
         instances = formset.save(commit=False)
         for instance in instances:
