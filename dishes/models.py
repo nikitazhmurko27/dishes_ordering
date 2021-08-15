@@ -33,6 +33,7 @@ class Ingredient(models.Model):
 
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
+    dish = models.ForeignKey('Dish', null=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     ingredients = models.ManyToManyField('Ingredient', through='OrderIngredients')
 
@@ -41,6 +42,16 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.order_id)
+
+    def get_ingredients_list(self):
+        ingredients = []
+        for ingredient in self.order_ingredients.select_related():
+            ing_dict = {
+                'ingredient': ingredient.ingredient,
+                'amount': ingredient.amount,
+            }
+            ingredients.append(ing_dict)
+        return ingredients
 
 
 class DishIngredients(models.Model):
