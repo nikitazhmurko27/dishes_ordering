@@ -141,7 +141,7 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_BEAT_SCHEDULE = {
     'collect_daily_order_10_pm': {
         'task': 'dishes.tasks.collect_daily_order_to_csv',
-        'schedule': crontab(),
+        'schedule': crontab(hour=22, minute=00),
     }
 }
 

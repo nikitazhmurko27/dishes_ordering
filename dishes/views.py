@@ -72,6 +72,12 @@ class OrderListView(ListView):
 
 
 def get_ingredient_diff(dish_ingredients, order_ingredients):
+    """
+    Get the difference ingredients between dish and order
+    :param dish_ingredients:
+    :param order_ingredients:
+    :return: list
+    """
     pairs = zip(dish_ingredients, order_ingredients)
     diffs = []
     for x, y in pairs:
@@ -88,6 +94,10 @@ def get_ingredient_diff(dish_ingredients, order_ingredients):
 
 
 def get_daily_orders():
+    """
+    Collect data orders from last day
+    :return:
+    """
     today = date.today()
     midnight = datetime.combine(today, datetime.min.time())
     orders = Order.objects.filter(created_at__gte=midnight)
