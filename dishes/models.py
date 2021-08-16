@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.contrib.auth.models import User
 
 
 class Dish(models.Model):
@@ -33,9 +34,16 @@ class Ingredient(models.Model):
 
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
-    dish = models.ForeignKey('Dish', null=True, on_delete=models.CASCADE)
+    dish = models.ForeignKey('Dish',
+                             null=True,
+                             on_delete=models.CASCADE)
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             null=True,
+                             related_name="orders",)
     created_at = models.DateTimeField(auto_now_add=True)
-    ingredients = models.ManyToManyField('Ingredient', through='OrderIngredients')
+    ingredients = models.ManyToManyField('Ingredient',
+                                         through='OrderIngredients')
 
     class Meta:
         ordering = ['-created_at']

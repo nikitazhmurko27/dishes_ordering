@@ -53,3 +53,22 @@ class DishFilterForm(forms.Form):
         if date_from > date_to:
             raise ValidationError(f'The "Date From" should not be more than "Date To"')
         return date_to
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=128)
+    password = forms.CharField(max_length=128, widget=forms.PasswordInput)
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        max_len = 128
+        if len(username) > max_len:
+            raise ValidationError(f'The username should not be more than {max_len}')
+        return username
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        max_len = 128
+        if len(password) > max_len:
+            raise ValidationError(f'The password should not be more than {max_len}')
+        return password

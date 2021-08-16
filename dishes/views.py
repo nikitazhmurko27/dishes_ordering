@@ -1,19 +1,77 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from .models import Dish, Order, OrderIngredients
 from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .forms import OrderForm, DishFilterForm
+from .forms import OrderForm, DishFilterForm, LoginForm
+from django.contrib.auth.forms import UserCreationForm
 from django.views import View
 import logging
 from datetime import datetime, date
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 logger = logging.getLogger(__name__)
 
 
-class HomepageView(View):
+class LoginView(View):
+    def get(self, request, *args, **kwargs):
+        form = LoginForm()
+        return render(
+            request,
+            'login.html',
+            {'form': form}
+        )
+
+    def post(self, request, *args, **kwargs):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(username=form.cleaned_data['username'],
+                                password=form.cleaned_data['password'])
+            if user is not None and user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('dishes:index'))
+        return render(
+            request,
+            'login.html',
+            {'form': form, 'login_error': 'Invalid username or password'}
+        )
+
+
+class RegistrationView(View):
+    def get(self, request, *args, **kwargs):
+        form = UserCreationForm()
+        return render(
+            request,
+            'registration.html',
+            {'form': form}
+        )
+
+    def post(self, request, *args, **kwargs):
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('dishes:index'))
+        return render(
+            request,
+            'registration.html',
+            {'form': form}
+        )
+
+
+class LogoutView(LoginRequiredMixin, View):
+    login_url = '/dishes-ordering/login/'
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return HttpResponseRedirect(reverse('dishes:index'))
+
+
+class HomepageView(LoginRequiredMixin, View):
+    login_url = '/dishes-ordering/login/'
+
     def get(self, request, *args, **kwargs):
         return render(
             request,
@@ -21,7 +79,9 @@ class HomepageView(View):
         )
 
 
-class DishListView (View):
+class DishListView (LoginRequiredMixin, View):
+    login_url = '/dishes-ordering/login/'
+
     def get(self, request, *args, **kwargs):
         dishes = Dish.objects.all()
 
@@ -53,19 +113,23 @@ class DishListView (View):
         )
 
 
-class DishSingleView(DetailView):
+class DishSingleView(LoginRequiredMixin, DetailView):
+    login_url = '/dishes-ordering/login/'
+
     model = Dish
     template_name = 'dish/single-dish.html'
     context_object_name = 'dish'
 
 
-class OrderListView(ListView):
+class OrderListView(LoginRequiredMixin, ListView):
+    login_url = '/dishes-ordering/login/'
+
     model = Order
     template_name = 'order/orders-list.html'
     context_object_name = 'orders'
 
     def get_queryset(self):
-        return Order.objects.prefetch_related(
+        return Order.objects.filter(user=self.request.user).prefetch_related(
             'order_ingredients',
             'order_ingredients__ingredient'
         )
@@ -118,7 +182,9 @@ def get_daily_orders():
     return data
 
 
-class CreateOrderView(View):
+class CreateOrderView(LoginRequiredMixin, View):
+    login_url = '/dishes-ordering/login/'
+
     def get(self, request, dish_id):
         dish = get_object_or_404(Dish, id=dish_id)
         initial_values = dish.get_ingredients_list()
@@ -148,7 +214,7 @@ class CreateOrderView(View):
             logger.error('order form is invalid')
             context = {'form': formset}
             return render(request, 'order/create-order.html', context)
-        order = Order(dish=dish)
+        order = Order(dish=dish, user=request.user)
         order.save()
         instances = formset.save(commit=False)
         for instance in instances:
