@@ -5,8 +5,8 @@
         <a href="/dishes-ordering/dishes">dishes</a>
     </div>
     <div class="navigation_menu_right">
-        <span id="user_name">Admin</span>
-        <a href="#">Logout</a>
+        <span id="user_name">{{ user.username }}</span>
+        <a href="/dishes-ordering/logout">Logout</a>
     </div>
 </div>
 <h2 style="text-align:center;">Create Order for {{ dish_name }}</h2>

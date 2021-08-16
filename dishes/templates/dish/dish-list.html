@@ -4,15 +4,13 @@
 <div class="navigation_menu">
     <div class="navigation_menu_left">
         <a href="/dishes-ordering/">home</a>
-<!--        <a href="/dishes-ordering/dishes" class="active">dishes</a>-->
-<!--        <a href="/dishes-ordering/orders"> my orders</a>-->
     </div>
     <div class="navigation_menu_center">
         <span id="filter_btn">Show Filter</span>
     </div>
     <div class="navigation_menu_right">
-        <span id="user_name">Admin</span>
-        <a href="#">Logout</a>
+        <span id="user_name">{{ user.username }}</span>
+        <a href="/dishes-ordering/logout">Logout</a>
     </div>
 </div>
 <div class="filter_container">

@@ -189,3 +189,49 @@ body a{
 .create_order_field_wrapper{
     padding: 15px;
 }
+
+.login_form_container{
+    max-width: 300px;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid #575a72;
+    border-radius: 25px;
+}
+
+.login_form_container form input[type=submit]{
+    width: 100px;
+    background-color: #7e829d;
+    color: white;
+    padding: 10px 20px;
+    margin: 0 auto;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login_form_container form input[type=submit]:hover{
+    background-color: #575a72;
+}
+
+.registration_form_container{
+    max-width: 700px;
+    margin: 0 auto;
+    border: 1px solid #575a72;
+    border-radius: 25px;
+}
+
+.registration_form_container form input[type=submit]{
+    width: 100px;
+    background-color: #7e829d;
+    color: white;
+    padding: 10px 20px;
+    margin: 0 auto;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.registration_form_container form input[type=submit]:hover{
+    background-color: #575a72;
+}

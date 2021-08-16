@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
+<div class="navigation_menu">
+    <div class="navigation_menu_left">
+    </div>
+    <div class="navigation_menu_right">
+        <span id="user_name">{{ user.username }}</span>
+        <a href="/dishes-ordering/logout">Logout</a>
+    </div>
+</div>
 <h2 class="homepage_title">Welcome to the Dish Ordering! </h2>
 <div class="homepage_navigation">
     <a href="dishes">

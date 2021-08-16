@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<h2 style="text-align:center;">Login</h2>
+<div class="login_form_container">
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        {{form.non_field.errors}}
+        <p style="color: red">{{login_error}}</p>
+        <p><input type="submit" value="Login"></p>
+    </form>
+    <p><span>Don't have account yet?</span><a href="/dishes-ordering/registration" style="text-decoration: underline;"> Register now</a></p>
+</div>
+{% endblock %}
