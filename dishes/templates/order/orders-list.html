@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
+{% load i18n %}
 
 <div class="navigation_menu">
     <div class="navigation_menu_left">
-        <a href="/dishes-ordering/">home</a>
+        <a href="/dishes-ordering/">{% trans 'NavMenuHome' %}</a>
     </div>
     <div class="navigation_menu_right">
         <span id="user_name">{{ user.username }}</span>
-        <a href="/dishes-ordering/logout">Logout</a>
+        <a href="/dishes-ordering/logout">{% trans 'Logout' %}</a>
     </div>
 </div>
 
@@ -15,11 +16,11 @@
 <div>
     <h2>Order #{{order.order_id}}</h2>
     <p>{{order.created_at}}</p>
-    <h3>Ingredients list:</h3>
+    <h3>{% trans 'IngredientsList' %}</h3>
     <table id="ingredients_table">
         <tr class="table_header">
-            <th>Title</th>
-            <th>Amount</th>
+            <th>{% trans 'IngredientTitle' %}</th>
+            <th>{% trans 'IngredientAmount' %}</th>
         </tr>
         {% for order_ingredient in order.order_ingredients.all %}
             <tr class="table_ingredient">
@@ -31,6 +32,6 @@
 </div>
 <hr>
 {% empty %}
-    <h2>Sorry, no orders were found.</h2>
+    <h2>{% trans 'NoOrdersFound' %}</h2>
 {% endfor %}
 {% endblock %}

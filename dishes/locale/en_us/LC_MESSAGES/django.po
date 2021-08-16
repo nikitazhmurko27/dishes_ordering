@@ -1,0 +1,98 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-08-16 18:21+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: forms.py:60
+msgid "Username"
+msgstr "Username"
+
+#: forms.py:61
+msgid "Password"
+msgstr "Password"
+
+#: templates/dish/dish-list.html:8 templates/order/orders-list.html:7
+msgid "NavMenuHome"
+msgstr "home"
+
+#: templates/dish/dish-list.html:11
+msgid "NavMenuShowFilter"
+msgstr "show filter"
+
+#: templates/dish/dish-list.html:15 templates/dish/index.html:25
+#: templates/dish/single-dish.html:11 templates/order/create-order.html:11
+#: templates/order/orders-list.html:11
+msgid "Logout"
+msgstr "Logout"
+
+#: templates/dish/dish-list.html:35
+msgid "NoDishesFound"
+msgstr "Sorry, no dishes found."
+
+#: templates/dish/index.html:28
+msgid "HomepageWelcomeTitle"
+msgstr "Welcome to the Dish Ordering!"
+
+#: templates/dish/index.html:32
+msgid "HomepageDishes"
+msgstr "Dishes"
+
+#: templates/dish/index.html:36
+msgid "HomepageOrders"
+msgstr "Orders"
+
+#: templates/dish/single-dish.html:7 templates/order/create-order.html:7
+msgid "NavMenuDishes"
+msgstr "dishes"
+
+#: templates/dish/single-dish.html:17 templates/order/orders-list.html:19
+msgid "IngredientsList"
+msgstr "Ingredients List: "
+
+#: templates/dish/single-dish.html:20 templates/order/orders-list.html:22
+msgid "IngredientTitle"
+msgstr "Title"
+
+#: templates/dish/single-dish.html:21 templates/order/orders-list.html:23
+msgid "IngredientAmount"
+msgstr "Amount"
+
+#: templates/dish/single-dish.html:30 templates/order/create-order.html:14
+#, fuzzy
+#| msgid "HomepageOrders"
+msgid "CreateOrderTitle"
+msgstr "Orders"
+
+#: templates/login.html:21
+msgid "LoginHeader"
+msgstr "Login"
+
+#: templates/login.html:28
+msgid "LoginBtnValue"
+msgstr "Login"
+
+#: templates/login.html:30
+msgid "DontHaveAccountYet"
+msgstr "Don't have account yet?"
+
+#: templates/login.html:30
+msgid "RegisterNow"
+msgstr "Register now"
+
+#: templates/order/orders-list.html:35
+msgid "NoOrdersFound"
+msgstr "Sorry, no orders found."
