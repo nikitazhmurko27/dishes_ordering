@@ -191,6 +191,20 @@ LOGGING = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': '127.0.0.1:11211',
+        'TIMEOUT': 3600,
+    },
+    'db_cache': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'dish_ordering_cache_table',
+    }
+}
+
+CACHE_MIDDLEWARE_SECONDS = 3600
+
 INTERNAL_IPS = [
     '127.0.0.1',
 ]

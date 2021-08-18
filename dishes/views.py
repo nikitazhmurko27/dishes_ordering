@@ -11,7 +11,6 @@ import logging
 from datetime import datetime, date
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.translation import ugettext as _
 
 
 logger = logging.getLogger(__name__)
