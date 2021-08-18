@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from .models import OrderIngredients
 from django.core.exceptions import ValidationError
 from datetime import datetime
+from django.utils.translation import ugettext_lazy as _
 
 
 order_choices = (('DESC', 'DESC'), ('ASC', 'ASC'))
@@ -56,8 +57,8 @@ class DishFilterForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=128)
-    password = forms.CharField(max_length=128, widget=forms.PasswordInput)
+    username = forms.CharField(max_length=128, label=_('Username'))
+    password = forms.CharField(max_length=128, widget=forms.PasswordInput, label=_('Password'))
 
     def clean_username(self):
         username = self.cleaned_data['username']

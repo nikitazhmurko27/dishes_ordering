@@ -21,7 +21,8 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dishes-ordering/', include('dishes.urls')),
-    path('', RedirectView.as_view(url='/dishes-ordering/', permanent=True))
+    path('', RedirectView.as_view(url='/dishes-ordering/', permanent=True)),
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
 
 if settings.DEBUG:

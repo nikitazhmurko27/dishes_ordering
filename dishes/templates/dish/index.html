@@ -1,23 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
+{% load i18n %}
+
 <div class="navigation_menu">
     <div class="navigation_menu_left">
+        <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+            <select name="language">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                        {{ language.name_local }} ({{ language.code }})
+                    </option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Go">
+        </form>
     </div>
     <div class="navigation_menu_right">
         <span id="user_name">{{ user.username }}</span>
-        <a href="/dishes-ordering/logout">Logout</a>
+        <a href="/dishes-ordering/logout">{% trans 'Logout' %}</a>
     </div>
 </div>
-<h2 class="homepage_title">Welcome to the Dish Ordering! </h2>
+<h2 class="homepage_title">{% trans 'HomepageWelcomeTitle' %}</h2>
 <div class="homepage_navigation">
     <a href="dishes">
         <img src="{% static 'images/dishes.jpeg'%}" alt="">
-        <p>dishes</p>
+        <p>{% trans 'HomepageDishes' %}</p>
     </a>
     <a href="orders">
         <img src="{% static 'images/order.jpeg'%}" alt="">
-        <p>orders</p>
+        <p>{% trans 'HomepageOrders' %}</p>
     </a>
 </div>
 {% endblock %}

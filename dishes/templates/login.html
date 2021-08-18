@@ -1,15 +1,32 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<h2 style="text-align:center;">Login</h2>
+{% load i18n %}
+
+<form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+    <input name="next" type="hidden" value="{{ redirect_to }}">
+    <select name="language">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                {{ language.name_local }} ({{ language.code }})
+            </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Go">
+</form>
+
+<h2 style="text-align:center;">{% trans 'LoginHeader' %}</h2>
 <div class="login_form_container">
     <form method="POST" action="">
         {% csrf_token %}
         {{form.as_p}}
         {{form.non_field.errors}}
         <p style="color: red">{{login_error}}</p>
-        <p><input type="submit" value="Login"></p>
+        <p><input type="submit" value="{% trans 'LoginBtnValue' %}"></p>
     </form>
-    <p><span>Don't have account yet?</span><a href="/dishes-ordering/registration" style="text-decoration: underline;"> Register now</a></p>
+    <p><span>{% trans 'DontHaveAccountYet' %}</span><a href="/dishes-ordering/registration" style="text-decoration: underline;">{% trans 'RegisterNow' %}</a></p>
 </div>
 {% endblock %}

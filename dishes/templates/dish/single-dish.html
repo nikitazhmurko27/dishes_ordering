@@ -1,22 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
+{% load i18n %}
+
 <div class="navigation_menu">
     <div class="navigation_menu_left">
-        <a href="/dishes-ordering/dishes" class="active">dishes</a>
+        <a href="/dishes-ordering/dishes" class="active">{% trans 'NavMenuDishes' %}</a>
     </div>
     <div class="navigation_menu_right">
         <span id="user_name">{{ user.username }}</span>
-        <a href="/dishes-ordering/logout">Logout</a>
+        <a href="/dishes-ordering/logout">{% trans 'Logout' %}</a>
     </div>
 </div>
 <div>
     <h1>{{dish.name}}</h1>
     <p>{{dish.created_at}}</p>
-    <h3>Ingredients list:</h3>
+    <h3>{% trans 'IngredientsList' %}</h3>
     <table id="ingredients_table">
         <tr class="table_header">
-            <th>Title</th>
-            <th>Amount</th>
+            <th>{% trans 'IngredientTitle' %}</th>
+            <th>{% trans 'IngredientAmount' %}</th>
         </tr>
         {% for ingredient in dish.dish_ingredients.select_related %}
             <tr class="table_ingredient">
