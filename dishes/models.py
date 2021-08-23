@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 
 class Dish(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    ingredients = models.ManyToManyField('Ingredient', through='DishIngredients')
+    ingredients = models.ManyToManyField('Ingredient',
+                                         through='DishIngredients')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -63,12 +64,33 @@ class Order(models.Model):
 
 
 class DishIngredients(models.Model):
-    dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name='dish_ingredients')
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    amount = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])
+    dish = models.ForeignKey(
+        Dish,
+        on_delete=models.CASCADE,
+        related_name='dish_ingredients'
+    )
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.CASCADE
+    )
+    amount = models.PositiveIntegerField(
+        default=1,
+        validators=[MinValueValidator(1)]
+    )
 
 
 class OrderIngredients(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_ingredients')
-    ingredient = models.ForeignKey(Ingredient, null=True, on_delete=models.CASCADE)
-    amount = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name='order_ingredients'
+    )
+    ingredient = models.ForeignKey(
+        Ingredient,
+        null=True,
+        on_delete=models.CASCADE
+    )
+    amount = models.PositiveIntegerField(
+        default=1,
+        validators=[MinValueValidator(1)]
+    )

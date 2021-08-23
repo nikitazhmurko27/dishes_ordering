@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from dishes.models import Dish, DishIngredients, Ingredient, Order
+from dishes.models import Dish, \
+                          DishIngredients, \
+                          Ingredient, \
+                          Order
 import logging
 
 logger = logging.getLogger(__name__)
