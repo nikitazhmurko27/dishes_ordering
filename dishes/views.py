@@ -36,7 +36,10 @@ class LoginView(View):
         return render(
             request,
             'login.html',
-            {'form': form, 'login_error': 'Invalid username or password'}
+            {
+                'form': form,
+                'login_error': 'Invalid username or password'
+            }
         )
 
 
@@ -129,7 +132,8 @@ class OrderListView(LoginRequiredMixin, ListView):
     context_object_name = 'orders'
 
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user).prefetch_related(
+        return Order.objects.filter(
+            user=self.request.user).prefetch_related(
             'order_ingredients',
             'order_ingredients__ingredient'
         )
@@ -170,10 +174,12 @@ def get_daily_orders():
     for order in orders:
         dish_ingredients = order.dish.get_ingredients_list()
         order_ingredients = order.get_ingredients_list()
-        diffs = get_ingredient_diff(dish_ingredients, order_ingredients)
+        diffs = get_ingredient_diff(dish_ingredients,
+                                    order_ingredients)
         diffs_str = ""
         for ingredient_diff in diffs:
-            diff_str = f"{ingredient_diff['name']} - {ingredient_diff['current']};"
+            diff_str = f"{ingredient_diff['name']} " \
+                       f"- {ingredient_diff['current']};"
             diffs_str += diff_str
         is_change = True
         if len(diffs) == 0:
@@ -193,9 +199,10 @@ class CreateOrderView(LoginRequiredMixin, View):
                                             can_delete=False,
                                             extra=len(initial_values)
                                             )
-        formset = OrderFormSet(initial=initial_values,
-                               queryset=OrderIngredients.objects.none().select_related()
-                               )
+        formset = OrderFormSet(
+            initial=initial_values,
+            queryset=OrderIngredients.objects.none().select_related()
+        )
         context = {'form': formset, 'dish_name': dish.name}
         return render(request, 'order/create-order.html', context)
 
