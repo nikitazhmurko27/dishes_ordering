@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 import os
 import environ
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'rest_framework',
     'drf_yasg',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -205,6 +206,26 @@ CACHES = {
 }
 
 CACHE_MIDDLEWARE_SECONDS = 3600
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'PAGE_SIZE': 10,
+    'DATETIME_FORMAT': '%Y%m%d %H:%M:%S',
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'AUTH_HEADER_TYPES': ('Bearer',)	,
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+}
+
 
 INTERNAL_IPS = [
     '127.0.0.1',
