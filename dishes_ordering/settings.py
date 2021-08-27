@@ -92,8 +92,16 @@ WSGI_APPLICATION = 'dishes_ordering.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASS'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
+    },
+    'additional': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / env('DATABASE_NAME'),
+        'NAME': BASE_DIR / env('DATABASE_SQL_NAME'),
     }
 }
 
@@ -227,7 +235,6 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',)	,
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
 }
-
 
 INTERNAL_IPS = [
     '127.0.0.1',
