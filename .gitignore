@@ -5,3 +5,4 @@ db.sqlite3
 dishes_ordering/.env
 logs.log
 reports
+config/*.env
